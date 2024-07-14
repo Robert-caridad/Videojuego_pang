@@ -2,7 +2,7 @@ class Player {
 
     constructor(gameSize) {
         this.gameSize = gameSize;
-        //this.bullets = [];
+        this.bullets = [];
 
         this.playerSize = {
             w: 100,
@@ -11,7 +11,8 @@ class Player {
 
         this.playerPos = {
             left: 50,
-            top: this.gameSize.h - this.playerSize.h - 10
+            top: this.gameSize.h - this.playerSize.h - 10,
+            base: this.gameSize.h - this.playerSize.h - 10,
         }
 
         this.playerSpeed = {
@@ -21,6 +22,7 @@ class Player {
 
         this.init()
     }
+
 
     init() {
         this.playerElement = document.createElement('div')
@@ -37,6 +39,8 @@ class Player {
 
     move() {
         this.updatePosition()
+        this.clearBullets()
+        this.bullets.forEach(bullet => bullet.move())
     }
 
     moveLeft() {
@@ -51,4 +55,21 @@ class Player {
         this.playerElement.style.left = `${this.playerPos.left}px`
         this.playerElement.style.top = `${this.playerPos.top}px`
     }
+
+    shoot() {
+        this.bullets.push(new Bullets(this.playerPos, this.playerSize));
+        /**como podemos hacer que dispare a la vez que se mueve **/
+    }
+
+    clearBullets() {
+
+        this.bullets.forEach((bull, idx) => {
+            if (bull.bulletPos.top <= this.gameSize.h - this.gameSize.h) {
+                bull.bulletElement.remove()
+                this.bullets.splice(idx, 1)
+            }
+        })
+    }
+
 }
+

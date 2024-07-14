@@ -7,10 +7,12 @@ const Game = {
 
     keys: {
         LEFT: 'ArrowLeft',
-        RIGHT: 'ArrowRight'
+        RIGHT: 'ArrowRight',
+        SHOOT: 'Space'
     },
 
     player: undefined,
+    balls: undefined,
 
     init() {
         this.setDimensions()
@@ -33,6 +35,7 @@ const Game = {
 
     createElements() {
         this.player = new Player(this.gameSize)
+        this.balls = new Balls(this.gameSize)
     },
 
     setEventListeners() {
@@ -41,10 +44,14 @@ const Game = {
             switch (event.code) {
                 case this.keys.LEFT:
                     this.player.moveLeft()
-                    break
+                    break;
                 case this.keys.RIGHT:
                     this.player.moveRight()
-                    break
+                    break;
+                case this.keys.SHOOT:
+                    this.player.shoot()
+                    break;
+
             }
         }
 
@@ -53,11 +60,24 @@ const Game = {
     startGameLoop() {
         setInterval(() => {
             this.drawAll()
+            this.moveAll()
+            this.clearAll()
         }, 60)
     },
 
     drawAll() {
         this.player.move()
+        this.balls.move()
+    },
+
+    moveAll() {
+        this.player.move()
+        this.balls.move()
+    },
+
+    clearAll() {
+        this.player.clearBullets()
     }
+
 
 }
