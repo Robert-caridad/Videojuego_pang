@@ -9,9 +9,9 @@ class Balls {
             h: 60
         }
 
-        this.ballsPos = {
-            left: this.gameSize.w - this.gameSize.w, // no sale desde 0
-            top: this.gameSize.h / 2
+        this.ballsPos = { //preguntar por que no sale desde left 0
+            left: 0,
+            top: this.gameSize.h - this.gameSize.h
         }
 
         this.ballsPhysics = {
@@ -44,18 +44,44 @@ class Balls {
     }
 
     move() {
-        this.ballsPhysics.speed.top += this.ballsElement.gravity
+        this.ballsPhysics.speed.top += this.ballsPhysics.gravity
 
         this.ballsPos.top += this.ballsPhysics.speed.top
         this.ballsPos.left += this.ballsPhysics.speed.left
 
-        // this.checkBorderCollision()
+        this.checkBorderCollision()
         this.updatePosition()
     }
 
     updatePosition() {
         this.ballsElement.style.left = `${this.ballsPos.left}px`
         this.ballsElement.style.top = `${this.ballsPos.top}px`
+    }
+
+    checkBorderCollision() { // llega un momento que la bola desaparece en el suelo
+        if (this.ballsPos.top >= this.gameSize.h - this.ballsSize.h) {
+            this.turnTop()
+        }
+
+        if (this.ballsPos.top <= 0) {
+            this.turnTop()
+        }
+
+        if (this.ballsPos.left >= this.gameSize.w - this.ballsSize.w) {
+            this.turnLeft()
+        }
+
+        if (this.ballsPos.left <= 0) {
+            this.turnLeft()
+        }
+    }
+
+    turnTop() {
+        this.ballsPhysics.speed.top *= -1
+    }
+
+    turnLeft() {
+        this.ballsPhysics.speed.left *= -1
     }
 }
 

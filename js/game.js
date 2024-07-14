@@ -12,7 +12,8 @@ const Game = {
     },
 
     player: undefined,
-    balls: undefined,
+    ballsArr: [],
+
 
     init() {
         this.setDimensions()
@@ -31,11 +32,14 @@ const Game = {
         this.setEventListeners()
         this.startGameLoop()
 
+
     },
+
 
     createElements() {
         this.player = new Player(this.gameSize)
         this.balls = new Balls(this.gameSize)
+
     },
 
     setEventListeners() {
@@ -62,21 +66,41 @@ const Game = {
             this.drawAll()
             this.moveAll()
             this.clearAll()
+
+            if (this.checkBallsCollisionWithBullets()) this.clearBall()
         }, 60)
     },
 
     drawAll() {
         this.player.move()
         this.balls.move()
+
     },
 
     moveAll() {
         this.player.move()
         this.balls.move()
+
     },
 
     clearAll() {
         this.player.clearBullets()
+        this.clearBall()
+    },
+
+    checkBallsCollisionWithBullets() { // preguntar a German colicion entre objetos en movimiento
+        if (this.ballsPos.top === this.gameSize.h) { //modificar el condicional 
+            this.clearBall()
+        }
+    },
+
+    clearBall() {
+        this.ballsArr.forEach((ball, idx) => {
+
+            ball.ballsElement.remove()
+
+            this.ballsArr.splice(idx, 1)
+        })
     }
 
 
