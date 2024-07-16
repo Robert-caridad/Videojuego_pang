@@ -1,23 +1,23 @@
 class Balls {
 
-    constructor(gameSize) {
+    constructor(gameSize, size, startingPosition, startingDirection) {
 
         this.gameSize = gameSize
 
         this.ballsSize = {
-            w: 60,
-            h: 60
+            w: size,
+            h: size
         }
 
         this.ballsPos = { //preguntar por que no sale desde left 0
-            left: 0,
-            top: this.gameSize.h - this.gameSize.h
+            left: startingPosition.left,
+            top: startingPosition.top
         }
 
         this.ballsPhysics = {
             speed: {
-                left: 10,
-                top: 5
+                left: startingDirection.left,
+                top: startingDirection.top
             },
 
             gravity: .4

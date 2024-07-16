@@ -20,6 +20,8 @@ class Player {
             top: 5
         }
 
+        this.lives = 3
+
         this.init()
     }
 
