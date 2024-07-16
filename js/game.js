@@ -12,6 +12,7 @@ const Game = {
     },
 
     receivesDamage: true,
+    canExplode: true,
 
     player: undefined,
     ballsArr: [],
@@ -63,7 +64,7 @@ const Game = {
 
     },
 
-    startGameLoop() {
+    startGameLoop() {          // los bordes se detectan antes de la collision
         setInterval(() => {
 
             this.drawAll()
@@ -72,7 +73,7 @@ const Game = {
 
             if (this.isCollisionBallsWithPlayer()) this.deleteLives()
             if (this.isCollisionBallsWithBullets()) this.handleBallCreation()
-            if (this.isCollisionBallsWithBullets()) this.clearBall()
+            //if (this.isCollisionBallsWithBullets()) this.clearBall()
             //if (this.ballsArr.length === 0) this.winGame()
         }, 60)
     },
@@ -94,14 +95,14 @@ const Game = {
     },
 
     handleBallCreation() {
-        if (this.isCollisionBallsWithBullets() && this.receivesDamage === true) { // elimina las 2 o 3 bolas de golpe
+        if (this.isCollisionBallsWithBullets() && this.canExplode === true) { // TODO : elimina las 2 o 3 bolas de golpe
             this.clearBall()
             this.ballsArr.push(new Balls(this.gameSize, 50, this.oldBallPos, { left: -15, top: 5 }))
             this.ballsArr.push(new Balls(this.gameSize, 50, this.oldBallPos, { left: 15, top: 5 }))
 
-            this.receivesDamage = false
+            this.canExplode = false
 
-            setTimeout(() => this.receivesDamage = true, 1000)
+            //setTimeout(() => this.canExplode = true, 3000)
 
         }
     },
@@ -130,7 +131,7 @@ const Game = {
         }
     },
 
-    clearBall() {
+    clearBall() { //refactorizar
 
         this.ballsArr.forEach((ball, idx) => {
 
@@ -166,7 +167,7 @@ const Game = {
             console.log(this.player.lives)
         }
         if (this.player.lives === 0) {
-            this.gameOver()
+            //this.gameOver()
         }
 
 

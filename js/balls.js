@@ -23,6 +23,7 @@ class Balls {
             gravity: .4
         }
 
+
         this.init()
 
     }
