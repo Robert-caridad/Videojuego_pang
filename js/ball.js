@@ -1,4 +1,4 @@
-class Balls {
+class Ball {
 
     constructor(gameSize, size, startingPosition, startingDirection) {
 
@@ -9,7 +9,7 @@ class Balls {
             h: size
         }
 
-        this.ballsPos = { //preguntar por que no sale desde left 0
+        this.ballsPos = {
             left: startingPosition.left,
             top: startingPosition.top
         }
@@ -59,20 +59,12 @@ class Balls {
         this.ballsElement.style.top = `${this.ballsPos.top}px`
     }
 
-    checkBorderCollision() { // llega un momento que la bola desaparece en el suelo
-        if (this.ballsPos.top >= this.gameSize.h - this.ballsSize.h) {
+    checkBorderCollision() { //TODO: Balls shuold be bouncing allways
+        if (this.ballsPos.top >= this.gameSize.h - this.ballsSize.h || this.ballsPos.top <= 0) {
             this.turnTop()
         }
 
-        if (this.ballsPos.top <= 0) {
-            this.turnTop()
-        }
-
-        if (this.ballsPos.left >= this.gameSize.w - this.ballsSize.w) {
-            this.turnLeft()
-        }
-
-        if (this.ballsPos.left <= 0) {
+        if (this.ballsPos.left >= this.gameSize.w - this.ballsSize.w || this.ballsPos.left <= 0) {
             this.turnLeft()
         }
     }
@@ -85,16 +77,3 @@ class Balls {
         this.ballsPhysics.speed.left *= -1
     }
 }
-
-
-
-
-/**clearBall(){
-    this.balls.forEach((ball, idx) => {
-        if (ball.ballsPos.top && ball.balls.left = bullet.position) {
-             ball.ballElement.remove()
-             
-        this.ball.splice(idx, 1)
-        }
-    })
-}  cuando la bala coincida con la bola en el eje x e y tiene que desaparecer la bola y la bala ( posterioirmente aparecer dos bolas mas pequeñas)**/

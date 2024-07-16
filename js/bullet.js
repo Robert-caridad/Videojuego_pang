@@ -1,4 +1,4 @@
-class Bullets {
+class Bullet {
     constructor(playerPos, playerSize) {
 
         this.playerPos = playerPos

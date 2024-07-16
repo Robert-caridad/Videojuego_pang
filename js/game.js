@@ -18,6 +18,8 @@ const Game = {
     ballsArr: [],
     oldBallPos: undefined,
 
+    stage: 1,
+
     init() {
         this.setDimensions()
         this.start()
@@ -26,7 +28,6 @@ const Game = {
     setDimensions() {
         document.querySelector("#game-screen").style.width = `${this.gameSize.w}px`
         document.querySelector("#game-screen").style.height = `${this.gameSize.h}px`
-
     },
 
     start() {
@@ -34,15 +35,11 @@ const Game = {
         this.createElements()
         this.setEventListeners()
         this.startGameLoop()
-
-
     },
-
 
     createElements() {
         this.player = new Player(this.gameSize)
-        this.ballsArr.push(new Balls(this.gameSize, 100, { left: 0, top: 0 }, { left: 10, top: 5 }))
-
+        this.ballsArr.push(new Ball(this.gameSize, 100, { left: 0, top: 0 }, { left: 10, top: 5 }))
     },
 
     setEventListeners() {
@@ -64,18 +61,21 @@ const Game = {
 
     },
 
-    startGameLoop() {          // TODO: borders detect eachother before collision
+    startGameLoop() {
+
         setInterval(() => {
-
-            this.drawAll()
+            this.checkCollisions()
             this.moveAll()
+            this.drawAll()
             this.clearAll()
-
-            if (this.isCollisionBallsWithPlayer()) this.deleteLives()
-            if (this.isCollisionBallsWithBullets()) this.handleBallCreation()
-            //if (this.isCollisionBallsWithBullets()) this.clearBall()
-            //if (this.ballsArr.length === 0) this.winGame()
         }, 60)
+
+    },
+
+    checkCollisions() {
+        if (this.isCollisionBallsWithPlayer()) this.deleteLives()
+        if (this.isCollisionBallsWithBullets()) this.handleBallCreation()
+        if (this.ballsArr.length === 0) this.winGame()
     },
 
     drawAll() {
@@ -95,15 +95,21 @@ const Game = {
     },
 
     handleBallCreation() {
-        if (this.isCollisionBallsWithBullets() && this.canExplode === true) { // TODO: 2 or 3 balls are deleted at the same time
+
+        if (this.stage === 1 && this.isCollisionBallsWithBullets() && this.canExplode === true) {
+
             this.clearBall()
-            this.ballsArr.push(new Balls(this.gameSize, 50, this.oldBallPos, { left: -15, top: 5 }))
-            this.ballsArr.push(new Balls(this.gameSize, 50, this.oldBallPos, { left: 15, top: 5 }))
+            this.ballsArr.push(new Ball(this.gameSize, 50, this.oldBallPos, { left: -15, top: 5 }))
+            this.ballsArr.push(new Ball(this.gameSize, 50, this.oldBallPos, { left: 15, top: 5 }))
+            this.stage += 1
 
             this.canExplode = false
 
-            //setTimeout(() => this.canExplode = true, 3000)
+            setTimeout(() => this.canExplode = true, 1000)
 
+
+        } else if (this.stage === 2 && this.isCollisionBallsWithBullets() && this.canExplode === true) {
+            this.clearBall()
         }
     },
 
@@ -131,8 +137,7 @@ const Game = {
         }
     },
 
-    clearBall() { //TODO: refactor
-
+    clearBall() {
         this.ballsArr.forEach((ball, idx) => {
 
             ball.ballsElement.remove()
@@ -164,13 +169,10 @@ const Game = {
 
             setTimeout(() => this.receivesDamage = true, 1000)
 
-            console.log(this.player.lives)
         }
         if (this.player.lives === 0) {
-            //this.gameOver()
+            this.gameOver()
         }
-
-
     },
 
     gameOver() {
@@ -178,7 +180,7 @@ const Game = {
     },
 
     winGame() {
-        alert('WWWWWIIIIIIINNNNN')
+        alert('WIN')
     }
 
 }

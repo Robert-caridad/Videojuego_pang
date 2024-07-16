@@ -42,15 +42,21 @@ class Player {
     move() {
         this.updatePosition()
         this.clearBullets()
-        this.bullets.forEach(bullet => bullet.move())
+        this.bullets.forEach(bullet => {
+            bullet.move()
+        })
     }
 
     moveLeft() {
-        this.playerPos.left -= this.playerSpeed.left
+        if (this.playerPos.left >= this.gameSize.w - this.gameSize.w + this.playerSize.w / 2) {
+            this.playerPos.left -= this.playerSpeed.left
+        }
     }
 
     moveRight() {
-        this.playerPos.left += this.playerSpeed.left
+        if (this.playerPos.left <= this.gameSize.w - this.playerSize.w - this.playerSize.w / 2) {
+            this.playerPos.left += this.playerSpeed.left
+        }
     }
 
     updatePosition() {
@@ -59,15 +65,14 @@ class Player {
     }
 
     shoot() {
-        this.bullets.push(new Bullets(this.playerPos, this.playerSize));
-        /**como podemos hacer que dispare a la vez que se mueve **/
+        this.bullets.push(new Bullet(this.playerPos, this.playerSize)); //TODO: shoot and move at the same time
     }
 
     clearBullets() {
 
-        this.bullets.forEach((bull, idx) => {
-            if (bull.bulletPos.top <= this.gameSize.h - this.gameSize.h) {
-                bull.bulletElement.remove()
+        this.bullets.forEach((bullet, idx) => {
+            if (bullet.bulletPos.top <= this.gameSize.h - this.gameSize.h) {
+                bullet.bulletElement.remove()
                 this.bullets.splice(idx, 1)
             }
         })
