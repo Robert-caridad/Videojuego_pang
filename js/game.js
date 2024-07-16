@@ -64,7 +64,7 @@ const Game = {
 
     },
 
-    startGameLoop() {          // los bordes se detectan antes de la collision
+    startGameLoop() {          // TODO: borders detect eachother before collision
         setInterval(() => {
 
             this.drawAll()
@@ -95,7 +95,7 @@ const Game = {
     },
 
     handleBallCreation() {
-        if (this.isCollisionBallsWithBullets() && this.canExplode === true) { // TODO : elimina las 2 o 3 bolas de golpe
+        if (this.isCollisionBallsWithBullets() && this.canExplode === true) { // TODO: 2 or 3 balls are deleted at the same time
             this.clearBall()
             this.ballsArr.push(new Balls(this.gameSize, 50, this.oldBallPos, { left: -15, top: 5 }))
             this.ballsArr.push(new Balls(this.gameSize, 50, this.oldBallPos, { left: 15, top: 5 }))
@@ -131,7 +131,7 @@ const Game = {
         }
     },
 
-    clearBall() { //refactorizar
+    clearBall() { //TODO: refactor
 
         this.ballsArr.forEach((ball, idx) => {
 
