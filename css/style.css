@@ -7,5 +7,51 @@
     position: relative;
     /**preguntar a german**/
     overflow: hidden;
-    background-color: green;
+    background-image: url(/img/fondo.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+}
+
+body {
+    /**TODO: CHANGE LETERS TO IMG**/
+    background-color: yellow;
+    font-family: "Bungee Spice", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+.supermario {
+    width: 600px;
+    height: 300px;
+}
+
+.start {
+    width: 200px;
+    height: 200px;
+}
+
+#controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 10%;
+}
+
+#controls img {
+    width: 100px;
+    height: 100px;
+    padding: 20px;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+}
+
+#startPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

@@ -7,10 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Pang</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <figure id="game-screen"></figure>
+    <audio src="music/Voicy_Super Mario Bros. Theme Song.mp3" autoplay loop preload="auto">
+    </audio>
+    <div id="startPage">
+        <img class="supermario" src="img/5f569b8b4322de00046d577b.png" alt="supermario">
+        <button> <img class="start" src="img/start.png" alt=""></button>
+        <div id="controls">
+            <img src="/img/arrowleft.png" alt="">
+            <div>MOVE LEFT</div>
+            <img src="/img/arrowrigth.png" alt="">
+            <div>MOVE RIGTH</div>
+            <img src="/img/spacebar.png" alt="">
+            <div>SHOOT</div>
+        </div>
+    </div>
+
+    <figure id="game-screen"> </figure>
 
     <script src="./js/ball.js"></script>
     <script src="./js/bullet.js"></script>

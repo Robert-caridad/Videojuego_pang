@@ -16,19 +16,19 @@ class Bullet {
         }
 
         this.bulletSize = {
-            w: 10,
-            h: 10
+            w: 30,
+            h: 30
         }
 
         this.init()
     }
 
     init() {
-        this.bulletElement = document.createElement('div')
+        this.bulletElement = document.createElement('img')
+        this.bulletElement.src = "./img/bala.png"
 
         this.bulletElement.style.position = 'absolute'
-        this.bulletElement.style.borderRadius = `50%`
-        this.bulletElement.style.backgroundColor = `black`
+        this.bulletElement.style.backgroundColor = `transparent`
         this.bulletElement.style.width = `${this.bulletSize.w}px`
         this.bulletElement.style.height = `${this.bulletSize.h}px`
         this.bulletElement.style.left = `${this.bulletPos.left}px`

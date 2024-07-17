@@ -13,6 +13,8 @@ const Game = {
 
     receivesDamage: true,
     canExplode: true,
+    leftKeyPressed: false,
+    rightKeyPressed: false,
 
     player: undefined,
     ballsArr: [],
@@ -39,34 +41,43 @@ const Game = {
 
     createElements() {
         this.player = new Player(this.gameSize)
-        this.ballsArr.push(new Ball(this.gameSize, 100, { left: 0, top: 0 }, { left: 10, top: 5 }))
+        this.ballsArr.push(new Ball(this.gameSize, 150, { left: 0, top: 0 }, { left: 10, top: 5 }))
     },
 
     setEventListeners() {
         document.onkeydown = event => {
 
-            switch (event.code) {
-                case this.keys.LEFT:
-                    this.player.moveLeft()
-                    break;
-                case this.keys.RIGHT:
-                    this.player.moveRight()
-                    break;
-                case this.keys.SHOOT:
-                    this.player.shoot()
-                    break;
+            if (event.code === this.keys.LEFT) {
+                this.leftKeyPressed = true;
+                // Start moving the object left
+            } else if (event.code === this.keys.RIGHT) {
+                this.rightKeyPressed = true;
+                // Start moving the object right
+            } else if (event.code === this.keys.SHOOT) {
+                this.player.shoot()
+            }
+        }
 
+        document.onkeyup = event => {
+
+            if (event.code === this.keys.LEFT) {
+                this.leftKeyPressed = false;
+                // Start moving the object left
+            } else if (event.code === this.keys.RIGHT) {
+                this.rightKeyPressed = false;
+                // Start moving the object right
             }
         }
 
     },
+
+
 
     startGameLoop() {
 
         setInterval(() => {
             this.checkCollisions()
             this.moveAll()
-            this.drawAll()
             this.clearAll()
         }, 60)
 
@@ -78,29 +89,34 @@ const Game = {
         if (this.ballsArr.length === 0) this.winGame()
     },
 
-    drawAll() {
-        this.player.move()
-        this.ballsArr.forEach((eachBall) => {
-            eachBall.move()
-        })
-
-    },
-
     moveAll() {
-        this.player.move()
+
+
+        if (this.leftKeyPressed) {
+            this.player.moveLeft()
+        }
+        if (this.rightKeyPressed) {
+            this.player.moveRight()
+        }
+
         this.ballsArr.forEach((eachBall) => {
             eachBall.move()
         })
 
+        this.player.bullets.forEach(elm => {
+            elm.move()
+        })
+
     },
 
-    handleBallCreation() {
+    handleBallCreation() { // TODO: to know witch state each ball is.
 
         if (this.stage === 1 && this.isCollisionBallsWithBullets() && this.canExplode === true) {
 
             this.clearBall()
-            this.ballsArr.push(new Ball(this.gameSize, 50, this.oldBallPos, { left: -15, top: 5 }))
-            this.ballsArr.push(new Ball(this.gameSize, 50, this.oldBallPos, { left: 15, top: 5 }))
+            this.ballsArr.push(new Ball(this.gameSize, 100, this.oldBallPos, { left: -15, top: -5 }))
+            this.ballsArr.push(new Ball(this.gameSize, 100, this.oldBallPos, { left: 15, top: -5 }))
+
             this.stage += 1
 
             this.canExplode = false
@@ -110,6 +126,17 @@ const Game = {
 
         } else if (this.stage === 2 && this.isCollisionBallsWithBullets() && this.canExplode === true) {
             this.clearBall()
+            this.ballsArr.push(new Ball(this.gameSize, 50, this.oldBallPos, { left: -15, top: -5 }))
+            this.ballsArr.push(new Ball(this.gameSize, 50, this.oldBallPos, { left: 15, top: -5 }))
+            this.stage += 1
+
+            this.canExplode = false
+
+            setTimeout(() => this.canExplode = true, 1000)
+
+        } else if (this.stage === 3 && this.isCollisionBallsWithBullets() && this.canExplode === true) {
+            this.clearBall()
+
         }
     },
 
@@ -176,7 +203,7 @@ const Game = {
     },
 
     gameOver() {
-        alert('GAME OVER')
+        // alert('GAME OVER')
     },
 
     winGame() {

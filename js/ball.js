@@ -30,21 +30,21 @@ class Ball {
 
     init() {
 
-        this.ballsElement = document.createElement('div')
+        this.ballsElement = document.createElement('img')
+        this.ballsElement.src = "./img/bola-pinchos.png"
 
         this.ballsElement.style.position = 'absolute'
         this.ballsElement.style.width = `${this.ballsSize.w}px`
         this.ballsElement.style.height = `${this.ballsSize.h}px`
         this.ballsElement.style.left = `${this.ballsPos.left}px`
         this.ballsElement.style.top = `${this.ballsPos.top}px`
-        this.ballsElement.style.backgroundColor = `white`
-        this.ballsElement.style.borderRadius = '50%'
 
 
         document.querySelector('#game-screen').appendChild(this.ballsElement)
     }
 
     move() {
+
         this.ballsPhysics.speed.top += this.ballsPhysics.gravity
 
         this.ballsPos.top += this.ballsPhysics.speed.top
@@ -59,7 +59,7 @@ class Ball {
         this.ballsElement.style.top = `${this.ballsPos.top}px`
     }
 
-    checkBorderCollision() { //TODO: Balls shuold be bouncing allways
+    checkBorderCollision() {
         if (this.ballsPos.top >= this.gameSize.h - this.ballsSize.h || this.ballsPos.top <= 0) {
             this.turnTop()
         }

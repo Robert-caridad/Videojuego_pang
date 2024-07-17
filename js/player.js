@@ -16,47 +16,47 @@ class Player {
         }
 
         this.playerSpeed = {
-            left: 70,
+            left: 20,
             top: 5
         }
 
-        this.lives = 3
+        this.lives = 3 //TODO: BANNER WITH MUSHROOM LIVES  
 
         this.init()
     }
 
 
     init() {
-        this.playerElement = document.createElement('div')
+        this.playerElement = document.createElement('img')
+        this.playerElement.src = "./img/mario-corriendo.png"
+
 
         this.playerElement.style.position = "absolute"
         this.playerElement.style.width = `${this.playerSize.w}px`
         this.playerElement.style.height = `${this.playerSize.h}px`
         this.playerElement.style.left = `${this.playerPos.left}px`
         this.playerElement.style.top = `${this.playerPos.top}px`
-        this.playerElement.style.backgroundColor = `red`
+
 
         document.querySelector('#game-screen').appendChild(this.playerElement)
     }
 
-    move() {
-        this.updatePosition()
-        this.clearBullets()
-        this.bullets.forEach(bullet => {
-            bullet.move()
-        })
-    }
 
     moveLeft() {
+
         if (this.playerPos.left >= this.gameSize.w - this.gameSize.w + this.playerSize.w / 2) {
             this.playerPos.left -= this.playerSpeed.left
         }
+
+        this.updatePosition()
     }
 
     moveRight() {
         if (this.playerPos.left <= this.gameSize.w - this.playerSize.w - this.playerSize.w / 2) {
             this.playerPos.left += this.playerSpeed.left
         }
+
+        this.updatePosition()
     }
 
     updatePosition() {
@@ -65,7 +65,7 @@ class Player {
     }
 
     shoot() {
-        this.bullets.push(new Bullet(this.playerPos, this.playerSize)); //TODO: shoot and move at the same time
+        this.bullets.push(new Bullet(this.playerPos, this.playerSize));
     }
 
     clearBullets() {
