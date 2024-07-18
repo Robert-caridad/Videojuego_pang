@@ -202,13 +202,20 @@ const Game = {
 
         if (this.isCollisionBallsWithPlayer() && this.player.lives > 0 && this.receivesDamage === true) {
             this.player.lives -= 1
-            document.querySelector('.counterLives').style.display = "none"
             this.receivesDamage = false
 
             setTimeout(() => this.receivesDamage = true, 1000)
 
         }
+        if (this.player.lives === 2) {
+            document.querySelector('.live3').style.display = "none"
+        }
+        if (this.player.lives === 1) {
+            document.querySelector('.live2').style.display = "none"
+        }
+
         if (this.player.lives === 0) {
+            document.querySelector('.live1').style.display = "none"
             this.gameOver()
         }
     },
