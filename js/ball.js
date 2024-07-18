@@ -1,8 +1,12 @@
 class Ball {
 
-    constructor(gameSize, size, startingPosition, startingDirection) {
+    constructor(gameSize, size, startingPosition, startingDirection, initiaslStage = 0) {
 
         this.gameSize = gameSize
+
+        this.ballStage = initiaslStage
+
+        this.shouldBeRemoved = false
 
         this.ballsSize = {
             w: size,
@@ -25,8 +29,8 @@ class Ball {
 
 
         this.init()
-
     }
+
 
     init() {
 

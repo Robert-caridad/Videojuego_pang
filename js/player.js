@@ -20,7 +20,8 @@ class Player {
             top: 5
         }
 
-        this.lives = 3 //TODO: BANNER WITH MUSHROOM LIVES  
+        this.lives = 3 //TODO: LIVES DISAPEAR AT THE SAME TIME
+        //TODO: MUSIC WIN AND GAMEOVER IN LOOP
 
         this.init()
     }

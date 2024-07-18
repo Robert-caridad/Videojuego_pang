@@ -18,9 +18,8 @@ const Game = {
 
     player: undefined,
     ballsArr: [],
-    oldBallPos: undefined,
+    currentBallCollided: undefined,
 
-    stage: 1,
 
     init() {
         this.setDimensions()
@@ -37,11 +36,13 @@ const Game = {
         this.createElements()
         this.setEventListeners()
         this.startGameLoop()
+
     },
 
     createElements() {
         this.player = new Player(this.gameSize)
         this.ballsArr.push(new Ball(this.gameSize, 150, { left: 0, top: 0 }, { left: 10, top: 5 }))
+        this.ballsArr.push(new Ball(this.gameSize, 150, { left: 100, top: 100 }, { left: 10, top: 5 }))
     },
 
     setEventListeners() {
@@ -71,14 +72,13 @@ const Game = {
 
     },
 
-
-
     startGameLoop() {
 
         setInterval(() => {
             this.checkCollisions()
             this.moveAll()
             this.clearAll()
+            this.reloadPages()
         }, 60)
 
     },
@@ -109,33 +109,40 @@ const Game = {
 
     },
 
-    handleBallCreation() { // TODO: to know witch state each ball is.
+    handleBallCreation() {
 
-        if (this.stage === 1 && this.isCollisionBallsWithBullets() && this.canExplode === true) {
+        if (this.canExplode && this.currentBallCollided.ballStage === 0) {
 
+            this.currentBallCollided.shouldBeRemoved = true
             this.clearBall()
-            this.ballsArr.push(new Ball(this.gameSize, 100, this.oldBallPos, { left: -15, top: -5 }))
-            this.ballsArr.push(new Ball(this.gameSize, 100, this.oldBallPos, { left: 15, top: -5 }))
 
-            this.stage += 1
+            this.currentBallCollided.ballStage++
 
+            this.ballsArr.push(new Ball(this.gameSize, 100, this.currentBallCollided.ballsPos, { left: -15, top: -5 }, 1))
+            this.ballsArr.push(new Ball(this.gameSize, 100, this.currentBallCollided.ballsPos, { left: 15, top: -5 }, 1))
             this.canExplode = false
 
             setTimeout(() => this.canExplode = true, 1000)
 
+        } else if (this.canExplode && this.currentBallCollided.ballStage === 1) {
 
-        } else if (this.stage === 2 && this.isCollisionBallsWithBullets() && this.canExplode === true) {
+            this.currentBallCollided.shouldBeRemoved = true
             this.clearBall()
-            this.ballsArr.push(new Ball(this.gameSize, 50, this.oldBallPos, { left: -15, top: -5 }))
-            this.ballsArr.push(new Ball(this.gameSize, 50, this.oldBallPos, { left: 15, top: -5 }))
-            this.stage += 1
 
+            this.currentBallCollided.ballStage++
+
+            this.ballsArr.push(new Ball(this.gameSize, 50, this.currentBallCollided.ballsPos, { left: -15, top: -5 }, 2))
+            this.ballsArr.push(new Ball(this.gameSize, 50, this.currentBallCollided.ballsPos, { left: 15, top: -5 }, 2))
             this.canExplode = false
 
             setTimeout(() => this.canExplode = true, 1000)
 
-        } else if (this.stage === 3 && this.isCollisionBallsWithBullets() && this.canExplode === true) {
+        } else if (this.canExplode && this.currentBallCollided.ballStage === 2) {
+
+            this.currentBallCollided.shouldBeRemoved = true
             this.clearBall()
+            this.canExplode = false
+            setTimeout(() => this.canExplode = true, 1000)
 
         }
     },
@@ -156,7 +163,7 @@ const Game = {
                     this.player.bullets[j].bulletPos.left <= this.ballsArr[i].ballsPos.left + this.ballsArr[i].ballsSize.w &&
                     this.player.bullets[j].bulletPos.top <= this.ballsArr[i].ballsPos.top + this.ballsArr[i].ballsSize.h) {
 
-                    this.oldBallPos = this.ballsArr[i].ballsPos
+                    this.currentBallCollided = this.ballsArr[i]
 
                     return true
                 }
@@ -167,9 +174,12 @@ const Game = {
     clearBall() {
         this.ballsArr.forEach((ball, idx) => {
 
-            ball.ballsElement.remove()
+            if (ball.shouldBeRemoved) {
 
-            this.ballsArr.splice(idx, 1)
+                ball.ballsElement.remove()
+
+                this.ballsArr.splice(idx, 1)
+            }
         })
     },
 
@@ -192,6 +202,7 @@ const Game = {
 
         if (this.isCollisionBallsWithPlayer() && this.player.lives > 0 && this.receivesDamage === true) {
             this.player.lives -= 1
+            document.querySelector('.counterLives').style.display = "none"
             this.receivesDamage = false
 
             setTimeout(() => this.receivesDamage = true, 1000)
@@ -203,11 +214,36 @@ const Game = {
     },
 
     gameOver() {
-        // alert('GAME OVER')
+        document.querySelector('#game-screen').style.display = "none"
+        document.querySelector('#gameOver').style.display = "flex"
+
+        const audioPlayer = document.querySelector('.musicGame')
+        audioPlayer.pause()
+
+        const audioGameOver = document.querySelector('.musicGameOver')
+        audioGameOver.play()
+
     },
 
     winGame() {
-        alert('WIN')
+        document.querySelector('#game-screen').style.display = "none"
+        document.querySelector('#win').style.display = "flex"
+
+        const audioPlayer = document.querySelector('.musicGame');
+        audioPlayer.pause();
+
+        const audioWin = document.querySelector('.musicWin')
+        audioWin.play()
+    },
+
+    reloadPages() {
+        document.querySelector('.buttonReload1').onclick = () => {
+            location.reload()
+        }
+
+        document.querySelector('.buttonReload').onclick = () => {
+            location.reload()
+        }
     }
 
 }
