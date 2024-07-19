@@ -27,7 +27,7 @@ class Player {
 
     init() {
         this.playerElement = document.createElement('img')
-        this.playerElement.src = "./img/mario-corriendo.png"
+        this.playerElement.src = "./img/mario-running.png"
 
         this.playerElement.style.position = "absolute"
         this.playerElement.style.width = `${this.playerSize.w}px`

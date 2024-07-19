@@ -33,7 +33,7 @@ class Ball {
     init() {
 
         this.ballsElement = document.createElement('img')
-        this.ballsElement.src = "./img/bola-pinchos.png"
+        this.ballsElement.src = "./img/spiked-ball.png"
 
         this.ballsElement.style.position = 'absolute'
         this.ballsElement.style.width = `${this.ballsSize.w}px`

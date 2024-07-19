@@ -25,7 +25,7 @@ class Bullet {
 
     init() {
         this.bulletElement = document.createElement('img')
-        this.bulletElement.src = "./img/bala.png"
+        this.bulletElement.src = "./img/bullet.png"
 
         this.bulletElement.style.position = 'absolute'
         this.bulletElement.style.backgroundColor = `transparent`
