@@ -20,17 +20,14 @@ class Player {
             top: 5
         }
 
-        this.lives = 3 //TODO: LIVES DISAPEAR AT THE SAME TIME
-        //TODO: MUSIC WIN AND GAMEOVER IN LOOP
+        this.lives = 3
 
         this.init()
     }
 
-
     init() {
         this.playerElement = document.createElement('img')
         this.playerElement.src = "./img/mario-corriendo.png"
-
 
         this.playerElement.style.position = "absolute"
         this.playerElement.style.width = `${this.playerSize.w}px`
@@ -38,10 +35,8 @@ class Player {
         this.playerElement.style.left = `${this.playerPos.left}px`
         this.playerElement.style.top = `${this.playerPos.top}px`
 
-
         document.querySelector('#game-screen').appendChild(this.playerElement)
     }
-
 
     moveLeft() {
 

@@ -27,10 +27,8 @@ class Ball {
             gravity: .4
         }
 
-
         this.init()
     }
-
 
     init() {
 
@@ -43,14 +41,12 @@ class Ball {
         this.ballsElement.style.left = `${this.ballsPos.left}px`
         this.ballsElement.style.top = `${this.ballsPos.top}px`
 
-
         document.querySelector('#game-screen').appendChild(this.ballsElement)
     }
 
     move() {
 
         this.ballsPhysics.speed.top += this.ballsPhysics.gravity
-
         this.ballsPos.top += this.ballsPhysics.speed.top
         this.ballsPos.left += this.ballsPhysics.speed.left
 
